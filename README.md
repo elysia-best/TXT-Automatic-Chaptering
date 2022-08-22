@@ -16,7 +16,7 @@
     <img src="./imgs/3.png" height=200>
 </figure>
 
-### 已知问题 Konwn issues.
+### 已知问题 Known issues.
  - 仅能处理部分格式的章节——章节后面有一个空格的那种
  - 章节序号是汉字的不能处理 >_<
  - ......
