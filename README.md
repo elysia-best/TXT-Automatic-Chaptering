@@ -10,6 +10,8 @@
 
 ### 软件截图
 
-![1](./imgs/1.png)
-![2](./imgs/2.png)
-![3](./imgs/3.png)
+<figure class="third">
+    <img src="./imgs/1.png" height=200>
+    <img src="./imgs/2.png" height=200>
+    <img src="./imgs/3.png" height=200>
+</figure>
