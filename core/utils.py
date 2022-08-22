@@ -2,6 +2,7 @@ import os
 import re
 import shutil
 import tkinter as tk
+from core.chinese2digit import chinese2digit as c2d
 
 
 def split_txt(input_file, output_path, logger) -> None:
@@ -28,17 +29,23 @@ def split_txt(input_file, output_path, logger) -> None:
                 break
             line = line.rstrip('\r\n')
 
-            pattern = r'[第章回部节集卷] *[\d一二三四五六七八九十零〇百千两]+ *[第章回部节集卷] '
-            chapter = re.search(pattern, line)
-            if chapter is not None:
-                logger.insert(tk.INSERT, "[ info ] 找到：%s" % str(chapter[0]) + "\n")
-                chapter = re.search(r"[\d一二三四五六七八九十零〇百千两]+", chapter[0])
+            pattern = r'[第章回部节集卷] *[\d一二三四五六七八九十零〇百千两]+ *[第章回部节集卷]( |、)'
+            chapter_org = re.search(pattern, line)
+            if chapter_org is not None:
+                logger.insert(tk.INSERT, "[ info ] 找到：%s" % str(chapter_org[0]) + "\n")
+                chapter = re.search(r"[\d]+", chapter_org[0])
+                if not chapter:
+                    chapter = re.search(r"[一二三四五六七八九十零〇百千两]+", chapter_org[0])
+                    chapter = c2d(chapter[0])
+                else:
+                    chapter = chapter[0]
+
                 # Find new Chapter
                 if save_file is not None:
                     save_file.close()
 
                 save_file_path = os.path.join(output_path, "temp")
-                save_file_path = os.path.join(save_file_path, "%s.txt" % str(chapter[0]))
+                save_file_path = os.path.join(save_file_path, "%s.txt" % str(chapter))
                 save_file = open(save_file_path, mode='a', encoding='utf-8')
                 save_file.write(line)
                 save_file.write("\n")
