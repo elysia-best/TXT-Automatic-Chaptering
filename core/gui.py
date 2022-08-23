@@ -114,12 +114,12 @@ class MainApp(App):  # pylint: disable=too-many-ancestors
 
     def __get_txt_path(self):
         path = self.open_file()
-        self.log.insert(tk.INSERT, "[ info ] Select TXT file: %s \n" % str(path))
+        self.log.insert(tk.INSERT, f"[ info ] Select TXT file: {str(path)} \n")
         self.txt_path.set(path)
 
     def __get_txt_save_path(self):
         path = self.open_directory()
-        self.log.insert(tk.INSERT, "[ info ] Select save path: %s \n" % str(path))
+        self.log.insert(tk.INSERT, f"[ info ] Select save path: {str(path)} \n")
         self.save_path.set(path)
 
     def __main_process(self):
@@ -136,8 +136,8 @@ class MainApp(App):  # pylint: disable=too-many-ancestors
                 final_txt_path=self.save_path.get(),
                 logger=self.log
             )
-            self.log.insert(tk.INSERT, "[ info ] Success! Stored in: \n %s" % str(
-                os.path.join(self.save_path.get(), "output.txt")))
+            path = str(os.path.join(self.save_path.get(), "output.txt"))
+            self.log.insert(tk.INSERT, f"""[ info ] Success! Stored in: \n {path}""" )
 
         thread = threading.Thread(
             target=all_in_one,
