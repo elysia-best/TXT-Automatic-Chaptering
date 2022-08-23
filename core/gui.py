@@ -1,6 +1,8 @@
+"""
+This is GUI module.
+"""
 import os
 import threading
-import functools
 import tkinter as tk
 from tkinter import filedialog, messagebox
 from core.utils import split_txt, join_txt
@@ -36,20 +38,36 @@ class App(tk.Frame):
         # Config menubar
         root.config(menu=self.menubar)
 
+        self.placeholder = None
+
     def open_file(self) -> str:
+        """
+        Open fle Base function.
+        :return: filename
+        """
         filename = filedialog.askopenfilename()
+        self.placeholder = None
 
         return filename
 
     def open_directory(self) -> str:
-        directoryname = filedialog.askdirectory()
+        """
+        Open dir base function.
+        :return: dir name
+        """
+        directory_name = filedialog.askdirectory()
+        self.placeholder = None
 
-        return directoryname
+        return directory_name
 
 
-class MainApp(App):
+class MainApp(App):  # pylint: disable=too-many-ancestors
+    """
+    This is the class for MainApp
+    """
+
     def __init__(self, master):
-        super(MainApp, self).__init__(master)
+        super().__init__(master)
 
         # Define variables
         self.txt_path = tk.StringVar()
@@ -61,15 +79,15 @@ class MainApp(App):
         tk.Label(file_selector, text="TXT文件: ").grid(row=0)
         tk.Label(file_selector, text="文件保存目录： ").grid(row=1)
 
-        e1 = tk.Entry(file_selector, textvariable=self.txt_path)
-        e2 = tk.Entry(file_selector, textvariable=self.save_path)
-        e1.grid(row=0, column=1, padx=10, pady=5)
-        e2.grid(row=1, column=1, padx=10, pady=5)
+        entry_1 = tk.Entry(file_selector, textvariable=self.txt_path)
+        entry_2 = tk.Entry(file_selector, textvariable=self.save_path)
+        entry_1.grid(row=0, column=1, padx=10, pady=5)
+        entry_2.grid(row=1, column=1, padx=10, pady=5)
 
-        b1 = tk.Button(file_selector, text="打开", command=self.__get_txt_path)
-        b2 = tk.Button(file_selector, text="打开", command=self.__get_txt_save_path)
-        b1.grid(row=0, column=2, padx=5, pady=5)
-        b2.grid(row=1, column=2, padx=5, pady=5)
+        button_1 = tk.Button(file_selector, text="打开", command=self.__get_txt_path)
+        button_2 = tk.Button(file_selector, text="打开", command=self.__get_txt_save_path)
+        button_1.grid(row=0, column=2, padx=5, pady=5)
+        button_2.grid(row=1, column=2, padx=5, pady=5)
 
         # Add menubar entry
         self.menubar_file.add_command(label="打开", command=self.__get_txt_path)
@@ -77,11 +95,10 @@ class MainApp(App):
         bottom_area = tk.Frame(master, padx=5, pady=5)
         bottom_area.pack(side="bottom")
 
-        b3 = tk.Button(bottom_area, text="Bui~!", command=self.__main_process)
-        b4 = tk.Button(bottom_area, text="打开dir~")
-        b3.grid(row=0, column=0, padx=10, pady=5, sticky="w")
-        b4.grid(row=0, column=1, padx=10, pady=5, sticky="e")
-        # TODO: Add function to open txt save dir
+        button_3 = tk.Button(bottom_area, text="Bui~!", command=self.__main_process)
+        button_4 = tk.Button(bottom_area, text="打开dir~")
+        button_3.grid(row=0, column=0, padx=10, pady=5, sticky="w")
+        button_4.grid(row=0, column=1, padx=10, pady=5, sticky="e")
 
         output_area = tk.LabelFrame(master, text="输出", padx=5, pady=5)
         output_area.pack(side="bottom")
@@ -119,7 +136,8 @@ class MainApp(App):
                 final_txt_path=self.save_path.get(),
                 logger=self.log
             )
-            self.log.insert(tk.INSERT, "[ info ] Success! Stored in: \n %s" % str(os.path.join(self.save_path.get(), "output.txt")))
+            self.log.insert(tk.INSERT, "[ info ] Success! Stored in: \n %s" % str(
+                os.path.join(self.save_path.get(), "output.txt")))
 
         thread = threading.Thread(
             target=all_in_one,
@@ -130,4 +148,3 @@ class MainApp(App):
             title="",
             message="任务开始！"
         )
-

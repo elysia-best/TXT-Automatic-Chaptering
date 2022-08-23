@@ -1,3 +1,7 @@
+"""
+Some utils for this project.
+"""
+# pylint: disable=C,R
 import os
 import re
 import shutil
@@ -8,6 +12,7 @@ from core.chinese2digit import chinese2digit as c2d
 def split_txt(input_file, output_path, logger) -> None:
     """
     This function will split txt novel into numerical order txt.
+    :param logger: log object
     :param input_file: path to input file.
     :param output_path: path to output file.
     :return: None
@@ -57,6 +62,8 @@ def split_txt(input_file, output_path, logger) -> None:
 def join_txt(txt_store_path, final_txt_path, logger) -> None:
     """
     This function will join all txt together.
+    :param logger: log object.
+    :param final_txt_path: path to store txt.
     :param txt_store_path: path to stored txt folder
     :return: None
     """
@@ -67,7 +74,7 @@ def join_txt(txt_store_path, final_txt_path, logger) -> None:
     txt_name = []
 
     # Get txt names
-    for root, dirs, files in os.walk(txt_store_path, topdown=False):
+    for root, dirs, files in os.walk(txt_store_path, topdown=False):  # pylint: disable=unused-variable
         for name in files:
             txt_name.append(name.split(".")[0])
     txt_name = [int(i) for i in txt_name]

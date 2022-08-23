@@ -1,3 +1,6 @@
+"""
+Entry of this project.
+"""
 import tkinter as tk
 from core.gui import MainApp
 
