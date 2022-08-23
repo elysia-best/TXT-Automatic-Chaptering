@@ -25,6 +25,7 @@ def split_txt(input_file, output_path, logger) -> None:
         os.makedirs(os.path.join(output_path, "temp"))
     save_file_path = None
     save_file = None
+    my_pattern = Pattern()
     with open(input_file, encoding='utf-8') as f:
         while True:
             # Read one line from
@@ -34,13 +35,13 @@ def split_txt(input_file, output_path, logger) -> None:
                 break
             line = line.rstrip('\r\n')
 
-            pattern = r'[第章回部节集卷] *[\d一二三四五六七八九十零〇百千两]+ *[第章回部节集卷]( |、)'
-            chapter_org = re.search(pattern, line)
+            # pattern = r'[第章回部节集卷] *[\d一二三四五六七八九十零〇百千两]+ *[第章回部节集卷]( |、)'
+            chapter_org = re.search(my_pattern.get_global_pattern(), line)
             if chapter_org is not None:
                 logger.insert(tk.INSERT, "[ info ] 找到：%s" % str(chapter_org[0]) + "\n")
-                chapter = re.search(r"[\d]+", chapter_org[0])
+                chapter = re.search(my_pattern.get_digit_number_from_chapter(), chapter_org[0])
                 if not chapter:
-                    chapter = re.search(r"[一二三四五六七八九十零〇百千两]+", chapter_org[0])
+                    chapter = re.search(my_pattern.get_chinese_number_from_chapter(), chapter_org[0])
                     chapter = c2d(chapter[0])
                 else:
                     chapter = chapter[0]
@@ -98,3 +99,50 @@ def join_txt(txt_store_path, final_txt_path, logger) -> None:
                     line = line.rstrip('\r\n')
                     f.write(line)
                     f.write("\n")
+
+
+class Pattern:
+    """
+    This is the base class for pattern generation.
+    """
+
+    def __init__(self) -> None:
+        self.prefix = r"第章回部节集卷"
+        self.body = r"\d一二三四五六七八九十零〇百千两"
+        self.suffix = r"第章回部节集卷"
+        self.tail = r' |、|，'
+        self.interval = r" *"
+        self.digit_rule = r"\d"
+        self.chinese_rule = r"一二三四五六七八九十零〇百千两"
+
+    def get_global_pattern(self) -> str:
+        """
+        This pattern is used to grab chapter name from txt.
+        :return: pattern
+        """
+        pattern = r"[" + self.prefix + r"]"
+        pattern = pattern + self.interval
+        pattern = pattern + r"[" + self.body + r"]" + "+"
+        pattern = pattern + self.interval
+        pattern = pattern + r"[" + self.suffix + r"]"
+        pattern = pattern + r"(" + self.tail + r")"
+
+        return pattern
+
+    def get_digit_number_from_chapter(self) -> str:
+        """
+        This function will return the pattern to grab chapter index from txt.
+        :return:
+        """
+        pattern = r"[" + self.digit_rule + r"]" + "+"
+
+        return pattern
+
+    def get_chinese_number_from_chapter(self) -> str:
+        """
+        This function will return
+        :return:
+        """
+        pattern = r"[" + self.chinese_rule + r"]" + "+"
+
+        return pattern
