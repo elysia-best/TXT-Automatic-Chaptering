@@ -1,5 +1,7 @@
 ## TXT 自动分章、排序~
 [![GitHub forks](https://img.shields.io/github/forks/ganyuanzhen/TXT-Automatic-Chaptering?style=social)](https://github.com/ganyuanzhen/TXT-Automatic-Chaptering/network) [![GitHub stars](https://img.shields.io/github/stars/ganyuanzhen/TXT-Automatic-Chaptering?style=social)](https://github.com/ganyuanzhen/TXT-Automatic-Chaptering/stargazers) [![GitHub license](https://img.shields.io/github/license/ganyuanzhen/TXT-Automatic-Chaptering?style=social)](https://github.com/ganyuanzhen/TXT-Automatic-Chaptering/blob/main/LICENSE) [![GitHub issues](https://img.shields.io/github/issues/ganyuanzhen/TXT-Automatic-Chaptering?style=social)](https://github.com/ganyuanzhen/TXT-Automatic-Chaptering/issues)
+
+[![AutoBuild](https://github.com/ganyuanzhen/TXT-Automatic-Chaptering/actions/workflows/autobuild.yml/badge.svg?branch=main)](https://github.com/ganyuanzhen/TXT-Automatic-Chaptering/actions/workflows/autobuild.yml)
 ### 前言
 由于我喜欢看网文，但又不想付...， 所以从各种网站爬虫下载TXT。
 
