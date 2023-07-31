@@ -115,7 +115,7 @@ class Pattern:
         self.prefix = r"第章回部节集卷"
         self.body = r"\d一二三四五六七八九十零〇百千两"
         self.suffix = r"第章回部节集卷"
-        self.tail = r' |、|，'
+        self.tail = r' |、|，|\S'
         self.interval = r" *"
         self.digit_rule = r"\d"
         self.chinese_rule = r"一二三四五六七八九十零〇百千两"
