@@ -7,7 +7,10 @@ import re
 import shutil
 import tkinter as tk
 from core.chinese2digit import chinese2digit as c2d
+import chardet
 
+
+FILE_ENCODING = 'utf-8'
 
 def split_txt(input_file, output_path, logger) -> None:
     """
@@ -31,7 +34,9 @@ def split_txt(input_file, output_path, logger) -> None:
     save_file = open(save_file_path, mode='a', encoding='utf-8')
 
     my_pattern = Pattern()
-    with open(input_file, encoding='utf-8') as f:
+    global FILE_ENCODING
+    FILE_ENCODING = detect_file_encoding(input_file)
+    with open(input_file, encoding=FILE_ENCODING) as f:
         while True:
             # Read one line from
             line = f.readline()
@@ -57,7 +62,7 @@ def split_txt(input_file, output_path, logger) -> None:
 
                 save_file_path = os.path.join(output_path, "temp")
                 save_file_path = os.path.join(save_file_path, "%s.txt" % str(chapter))
-                save_file = open(save_file_path, mode='a', encoding='utf-8')
+                save_file = open(save_file_path, mode='a', encoding=FILE_ENCODING)
                 save_file.write(line)
                 save_file.write("\n")
             else:
@@ -91,11 +96,11 @@ def join_txt(txt_store_path, final_txt_path, logger) -> None:
 
     txt_out = os.path.join(final_txt_path, "output.txt")
 
-    with open(txt_out, mode='a', encoding="utf-8") as f:
+    with open(txt_out, mode='a', encoding=FILE_ENCODING) as f:
         for each in txt_name:
             logger.insert(tk.INSERT, "[ info ] Start to join: %s" % each + ".txt" + "\n")
             txt_path = os.path.join(txt_store_path, each + ".txt")
-            with open(txt_path, encoding='utf-8') as txt:
+            with open(txt_path, encoding=FILE_ENCODING) as txt:
                 while True:
                     # Read one line from
                     line = txt.readline()
@@ -151,3 +156,11 @@ class Pattern:
         pattern = r"[" + self.chinese_rule + r"]" + "+"
 
         return pattern
+
+
+def detect_file_encoding(input_file):
+    with open(input_file, 'rb') as f:
+        text = f.read()
+        res = chardet.detect(text)
+        encoding = res['encoding']
+    return encoding
