@@ -23,8 +23,13 @@ def split_txt(input_file, output_path, logger) -> None:
     else:
         shutil.rmtree(os.path.join(output_path, "temp"))
         os.makedirs(os.path.join(output_path, "temp"))
-    save_file_path = None
-    save_file = None
+
+    # Init 0 chapter.
+    chapter = -1
+    save_file_path = os.path.join(output_path, "temp")
+    save_file_path = os.path.join(save_file_path, "%s.txt" % str(chapter))
+    save_file = open(save_file_path, mode='a', encoding='utf-8')
+
     my_pattern = Pattern()
     with open(input_file, encoding='utf-8') as f:
         while True:
