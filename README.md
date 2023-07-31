@@ -5,7 +5,7 @@
 
 ## 通知
 
-软件将会在近期使用Flutter重构! 参考[这个页面](https://github.com/ganyuanzhen/TXT-Automatic-Chaptering/milestone/1)以获取更详细的信息。
+软件将会在近期使用~~Flutter~~ Qt6 重构来获取更好的兼容性。参考[这个页面](https://github.com/ganyuanzhen/TXT-Automatic-Chaptering/milestone/1)以获取更详细的信息。
 
 在更新期间，所有有关旧版本的Issue和Pr将不会再被查看，特殊情况除外。
 
